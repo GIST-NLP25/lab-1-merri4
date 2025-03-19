@@ -11,6 +11,8 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 
+import main_embed
+
 #####################
 # YOU MUST WRITE YOUR STUDENT ID IN THE VARIABLE STUDENT_ID
 # EXAMPLE: STUDENT_ID = "12345678"
@@ -207,7 +209,7 @@ def parse_arguments() :
     parser.add_argument('--train_data_path', type=str, default="./dataset/simple_seq.train.csv")
     parser.add_argument('--test_data_path', type=str, default="./dataset/simple_seq.test.csv")
 
-    parser.add_argument('--mode', type=str, default="train")
+    parser.add_argument('--mode', type=str, default="infer")
     
     parser.add_argument('--max_length', type=int, default=20)
 
@@ -227,10 +229,6 @@ def parse_arguments() :
 def main():
 
     args = parse_arguments()
-
-    print("===========================================")
-    print("\tNow Training model...")
-    print("===========================================")
 
     ### =======================================================================
     ### Device Setting 
@@ -268,6 +266,11 @@ def main():
     ## Training
     ## =======================================================================
     if args.mode == "train" :
+
+        
+        print("===========================================")
+        print("\tNow Training model...")
+        print("===========================================")
 
         if not os.path.exists(args.out_folder):
             os.makedirs(args.out_folder)
@@ -312,6 +315,10 @@ def main():
     ## =======================================================================
     else :
 
+        print("===========================================")
+        print("\tNow Inferring...")
+        print("===========================================")
+
         _, _ = load_checkpoint(args.model_path, model)
         model.eval()
 
@@ -341,3 +348,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    main_embed.main()
